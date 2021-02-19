@@ -1,7 +1,35 @@
-//import Worker from 'worker-loader!./workers/worker';
-import * as RdfString from "rdf-string";
-import { EventEmitter } from "events";
+import { ActorInitTypeahead } from '@treecg/actor-init-typeahead';
+import ITreeNode from '@treecg/actor-init-typeahead/lib/interfaces/ITreeNode';
+import engine from '../comunica-engine';
 
+const engine: ActorInitTypeahead = require('../comunica-engine');
+
+export default class AutoComplete {
+    public async prefetch(urls: string[]): Promise<ITreeNode[]> {
+        return engine.prefetch(urls);
+    }
+
+    public query(numResults, nodes, urls, input) {
+        const expectedPredicateValues = {
+            'http://schema.org/name': [ input ],
+            'http://schema.org/alternateName': [ input ],
+            'http://www.w3.org/2004/02/skos/core#prefLabel': [ input ],
+            'http://www.w3.org/2004/02/skos/core#altLabel': [ input ],
+        }
+
+        const query = {
+            numResults,
+            urls,
+            treeNodes: nodes,
+            expectedDatatypeValues: {},
+            expectedPredicateValues,
+          };
+
+        return engine.query(query);
+    }
+}
+
+/*
 export default class AutoCompleteWorker extends EventEmitter {
     protected worker: Worker;
 
@@ -31,3 +59,4 @@ export default class AutoCompleteWorker extends EventEmitter {
         this.worker.postMessage(input);
     }
 }
+*/

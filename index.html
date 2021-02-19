@@ -54,16 +54,17 @@
 
     <script>
         window.addEventListener('load', (event) => {
+            let currentQuery = "";
             const inputField = document.getElementById("autocomplete");
             const resultsElement = document.getElementById("results");
-            let currentQuery = "";
 
-            const autocomplete = new TreeComplete([
-                "https://termen.opoi.org/nta",
-                "https://termen.opoi.org/vtmk",
-                "https://termen.opoi.org/cht",
-                "https://termen.opoi.org/rkdartists"
-            ], 10);
+            const urls = [
+                "https://demo.netwerkdigitaalerfgoed.nl/fragments/vtmk/",
+                "https://demo.netwerkdigitaalerfgoed.nl/fragments/cht/",
+                "https://demo.netwerkdigitaalerfgoed.nl/fragments/wo2/"
+            ]
+
+            const autocomplete = new TreeComplete();
 
             function isPrimaryLabel(quad) {
                 const predicate = quad.predicate.value;
@@ -74,8 +75,7 @@
                 let primaryLabels = [];
                 let secondaryLabels = [];
 
-                for (const [quad, overlap] of matches) {
-                    const predicate = quad.predicate.value;
+                for (const quad of matches) {
                     const value = quad.object.value;
 
                     let destination;
@@ -85,7 +85,7 @@
                         destination = secondaryLabels;
                     }
 
-                    destination.push([value, overlap]);
+                    destination.push(value);
                 }
 
                 secondaryLabels = secondaryLabels.sort();
@@ -96,15 +96,15 @@
                     let candidates = [];
                     for (const quad of allQuads) {
                         if (isPrimaryLabel(quad)) {
-                            candidates.push([quad.object.value, []]);
+                            candidates.push(quad.object.value);
                         }
                     }
                     if (candidates.length > 0) {
                         // retain only the first one
                         candidates = candidates.sort();
-                        primaryLabels = [candidates[0]];
+                        primaryLabels = [candidates];
                     } else {
-                        primaryLabels = [secondaryLabels[0]];
+                        primaryLabels = [secondaryLabels];
                         secondaryLabels = secondaryLabels.slice(1);
                     }
                 } else {
@@ -114,14 +114,14 @@
                 return [primaryLabels, secondaryLabels]
             }
 
-            function formatPrimaryLabel(value, overlap) {
+            function formatPrimaryLabel(value) {
                 const element = document.createElement('span');
                 element.setAttribute("class", "primary");
                 element.innerText = value;
                 return element;
             }
 
-            function formatSecondaryLabel(value, overlap) {
+            function formatSecondaryLabel(value) {
                 const element = document.createElement('span');
                 element.setAttribute("class", "secondary");
                 element.innerText = value;
@@ -135,11 +135,11 @@
 
                 const [primaryLabels, secondaryLabels] = selectLabels(matches, allQuads);
 
-                const primaryElements = primaryLabels.map((a) => formatPrimaryLabel(...a));
+                const primaryElements = primaryLabels.map((a) => formatPrimaryLabel(a));
                 element.appendChild(...primaryElements);
 
                 if (secondaryLabels.length > 0) {
-                    const secondaryElements = secondaryLabels.map((a) => formatSecondaryLabel(...a));
+                    const secondaryElements = secondaryLabels.map((a) => formatSecondaryLabel(a));
                     element.appendChild(...secondaryElements);
                 };
 
@@ -154,57 +154,74 @@
                 currentResults = new Map();
             }
 
-            autocomplete.on("reset", (meta) => {
-                if (meta.query === currentQuery) {
-                    reset();
-                }
-            });
-
             let currentResults = new Map();
 
-            autocomplete.on("data", (quad, meta) => {
-                if (currentQuery !== meta.query) {
-                    return;
+            function createRow(subject) {
+                row = document.createElement('div');
+                row.setAttribute("class", "row result");
+
+                dataColumn = document.createElement('div');
+                dataColumn.setAttribute("class", "column column-80 column-offset-10");
+                dataColumn.id = subject;
+                row.appendChild(dataColumn);
+
+                linkRow = document.createElement('div');
+                linkRow.setAttribute("class", "row result");
+                linkColumn = document.createElement('div');
+                linkColumn.setAttribute("class", "column column-80 column-offset-10");
+                linkColumn.setAttribute("style", "text-align: right;");
+                linkRow.appendChild(linkColumn);
+
+                link = document.createElement('a');
+                link.setAttribute("href", subject);
+                link.textContent = subject;
+                linkColumn.appendChild(link);
+
+                resultsElement.appendChild(row);
+                resultsElement.appendChild(linkColumn);
+                resultsElement.appendChild(document.createElement('hr'));
+            }
+
+            let timeout;
+            let iterator = null;
+            let nodes = null;
+
+            autocomplete.prefetch(urls).then((discoveredNodes) => {
+                if (!nodes) {
+                    nodes = discoveredNodes;
                 }
-
-                const subject = quad.subject.value;
-
-                let dataColumn;
-                if (!currentResults.has(subject)) {
-                    currentResults.set(subject, [[[quad, meta.overlap]], meta.quads]);
-
-                    row = document.createElement('div');
-                    row.setAttribute("class", "row result");
-
-                    dataColumn = document.createElement('div');
-                    dataColumn.setAttribute("class", "column column-80 column-offset-10");
-                    dataColumn.id = subject;
-                    row.appendChild(dataColumn);
-
-                    linkRow = document.createElement('div');
-                    linkRow.setAttribute("class", "row result");
-                    linkColumn = document.createElement('div');
-                    linkColumn.setAttribute("class", "column column-80 column-offset-10");
-                    linkColumn.setAttribute("style", "text-align: right;");
-                    linkRow.appendChild(linkColumn);
-
-                    link = document.createElement('a');
-                    link.setAttribute("href", subject);
-                    link.textContent = subject;
-                    linkColumn.appendChild(link);
-
-                    resultsElement.appendChild(row);
-                    resultsElement.appendChild(linkColumn);
-                    resultsElement.appendChild(document.createElement('hr'));
-                } else {
-                    dataColumn = document.getElementById(subject);
-                    const [matches, _] = currentResults.get(subject);
-                    matches.push([quad, meta.overlap])
-                }
-
-                const [matches, allQuads] = currentResults.get(subject);
-                showResult(dataColumn, matches, allQuads);
             })
+
+            const debounce = (func, wait) => {
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            };
+
+            function fireQuery() {
+                if (iterator) {
+                    iterator.removeAllListeners();
+                    iterator.close();
+                }
+                //reset();
+                iterator = autocomplete.query(5, nodes, urls, currentQuery);
+                iterator.on('data', (d) => {
+                    nodes = d.knownTreeNodes;
+                    reset();
+                    for (const result of d.rankedSubjects) {
+                        createRow(result.subject);
+                        showResult(dataColumn, result.matchingQuads, result.quads);
+                    }
+                })
+            }
+
+            const bouncyQuery = debounce(fireQuery, 50);
 
             inputField.addEventListener("input", function (e) {
                 var a, b, i, val = this.value;
@@ -213,9 +230,13 @@
                     reset();
                     currentQuery = "";
                 } else if (val.trim() !== currentQuery) {
-                    reset();
                     currentQuery = val.trim();
-                    autocomplete.query(val);
+
+                    if (!iterator || iterator.closed) {
+                        fireQuery();
+                    } else {
+                        bouncyQuery();
+                    }
                 }
             });
         });

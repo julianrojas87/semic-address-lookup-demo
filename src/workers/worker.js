@@ -1,4 +1,4 @@
-import * as Autocomplete from "@hdelva/termennetwerk_client";
+const engine = require('../comunica-engine');
 import * as RdfString from "rdf-string";
 
 let currentResults = [];
@@ -41,6 +41,6 @@ client.on("end", (meta) => {
 })
 
 onmessage = function (e) {
-    currentResults = [];
-    client.query(e.data);
+    const numResults, nodes, urls, input = e.data;
+    engine.query(numResults, nodes, urls, input);
 }
