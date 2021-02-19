@@ -64,10 +64,10 @@
                 "https://demo.netwerkdigitaalerfgoed.nl/fragments/wo2/"
             ]
 
-            const autocomplete = new TreeComplete();
+            const autocomplete = new TreeComplete(10, urls);
 
             function isPrimaryLabel(quad) {
-                const predicate = quad.predicate.value;
+                const predicate = quad[1];
                 return predicate === "http://schema.org/name" || predicate === "http://www.w3.org/2004/02/skos/core#prefLabel";
             }
 
@@ -76,7 +76,7 @@
                 let secondaryLabels = [];
 
                 for (const quad of matches) {
-                    const value = quad.object.value;
+                    const value = quad[2];
 
                     let destination;
                     if (isPrimaryLabel(quad)) {
@@ -96,7 +96,7 @@
                     let candidates = [];
                     for (const quad of allQuads) {
                         if (isPrimaryLabel(quad)) {
-                            candidates.push(quad.object.value);
+                            candidates.push(quad[2]);
                         }
                     }
                     if (candidates.length > 0) {
@@ -184,13 +184,6 @@
 
             let timeout;
             let iterator = null;
-            let nodes = null;
-
-            autocomplete.prefetch(urls).then((discoveredNodes) => {
-                if (!nodes) {
-                    nodes = discoveredNodes;
-                }
-            })
 
             const debounce = (func, wait) => {
                 return function executedFunction(...args) {
@@ -209,17 +202,16 @@
                     iterator.removeAllListeners();
                     iterator.close();
                 }
-                //reset();
-                iterator = autocomplete.query(5, nodes, urls, currentQuery);
-                iterator.on('data', (d) => {
-                    nodes = d.knownTreeNodes;
-                    reset();
-                    for (const result of d.rankedSubjects) {
-                        createRow(result.subject);
-                        showResult(dataColumn, result.matchingQuads, result.quads);
-                    }
-                })
+                autocomplete.query(currentQuery);
             }
+
+            autocomplete.on('data', (results) => {
+                reset();
+                for (const result of results) {
+                    createRow(result.subject);
+                    showResult(dataColumn, result.matchingQuads, result.quads);
+                }
+            })
 
             const bouncyQuery = debounce(fireQuery, 50);
 

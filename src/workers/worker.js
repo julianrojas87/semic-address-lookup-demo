@@ -1,46 +1,55 @@
 const engine = require('../comunica-engine');
-import * as RdfString from "rdf-string";
 
-let currentResults = [];
-
-const client = new Autocomplete.StrictAutoComplete([
-    "https://termen.opoi.org/nta",
-    "https://termen.opoi.org/vtmk",
-    "https://termen.opoi.org/cht",
-    "https://termen.opoi.org/rkdartists"
-], 10);
-
-client.on("data", (quad, meta) => {
-    const allQuads = [];
-    for (const otherQuad of client.resolveSubject(quad.subject.value)) {
-        // sending objects to the main thread implicitly serializes everything
-        // we lose all the rdf-js methods, unless we explicitly (de)serialize those ourselves
-        allQuads.push(RdfString.quadToStringQuad(otherQuad));
-    }
-    meta.quads = allQuads;
-    currentResults.push([quad, meta]);
-    postMessage(["data", meta, RdfString.quadToStringQuad(quad)]);
-})
-
-client.on("reset", (meta) => {
-    currentResults = [];
-    postMessage(["reset", meta]);
-})
-
-client.on("end", (meta) => {
-    postMessage(["reset", meta]);
-    for (const [quad, meta] of currentResults) {
-        const allQuads = [];
-        for (const otherQuad of client.resolveSubject(quad.subject.value)) {
-            allQuads.push(RdfString.quadToStringQuad(otherQuad));
+let nodes = null;
+let roots = null;
+function prefetch(urls) {
+    roots = urls;
+    engine.prefetch(urls).then((discoveredNodes) => {
+        if (!nodes) {
+            nodes = discoveredNodes;
         }
-        meta.quads = allQuads;
-        postMessage(["data", meta, RdfString.quadToStringQuad(quad)]);
+    })
+}
+
+let iterator = null;
+function query(serial, numResults, expectedPredicateValues, expectedDatatypeValues) {
+    if (iterator) {
+        iterator.removeAllListeners();
+        iterator.close();
     }
-    postMessage(["end", meta]);
-})
+
+    const query = {
+        numResults,
+        urls: roots,
+        treeNodes: nodes,
+        expectedDatatypeValues,
+        expectedPredicateValues,
+      };
+
+    iterator = engine.query(query);
+    iterator.on('data', (d) => {
+        // TODO: check if it's closed?
+        nodes = d.knownTreeNodes;
+        const rankedSubjects = [];
+        for (const result of d.rankedSubjects) {
+            const matchingQuads = result.matchingQuads.map(q => [q.subject.value, q.predicate.value, q.object.value]);
+            const quads = result.quads.map(q => [q.subject.value, q.predicate.value, q.object.value]);
+            rankedSubjects.push({
+                subject: result.subject,
+                score: result.score,
+                matchingQuads, 
+                quads,
+            });
+        }
+        postMessage([serial, rankedSubjects]);
+    })
+}
 
 onmessage = function (e) {
-    const numResults, nodes, urls, input = e.data;
-    engine.query(numResults, nodes, urls, input);
+    const [call, ...data] = e.data;
+    if (call === "prefetch") {
+        prefetch(data);
+    } else if (call == "query") {
+        query(...data);
+    }
 }
