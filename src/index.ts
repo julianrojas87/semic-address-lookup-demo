@@ -75,19 +75,10 @@ export default class AutoCompleteWorker extends EventEmitter {
     }
 
     public query(input) {
-        const expectedPredicateValues = {
-            'http://schema.org/name': [ input ],
-            'http://schema.org/alternateName': [ input ],
-            'http://www.w3.org/2004/02/skos/core#prefLabel': [ input ],
-            'http://www.w3.org/2004/02/skos/core#altLabel': [ input ],
-        }
-
-        const expectedDatatypeValues = {};
-
         for (const [url, worker] of Object.entries(this.workers)) {
             this.subResults[url] = [];
             const serial = this.serial[url];
-            worker.postMessage(["query", serial, this.numResults, expectedPredicateValues, expectedDatatypeValues]);
+            worker.postMessage(["query", serial, this.numResults, input]);
         }
     }
 }

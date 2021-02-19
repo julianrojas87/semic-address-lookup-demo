@@ -12,11 +12,22 @@ function prefetch(urls) {
 }
 
 let iterator = null;
-function query(serial, numResults, expectedPredicateValues, expectedDatatypeValues) {
+async function query(serial, numResults, input) {
     if (iterator) {
         iterator.removeAllListeners();
         iterator.close();
     }
+
+    const normalizedInput = await engine.normalizeInput([input]);
+
+    const expectedPredicateValues = {
+        'http://schema.org/name': normalizedInput,
+        'http://schema.org/alternateName': normalizedInput,
+        'http://www.w3.org/2004/02/skos/core#prefLabel': normalizedInput,
+        'http://www.w3.org/2004/02/skos/core#altLabel': normalizedInput,
+    }
+
+    const expectedDatatypeValues = {};
 
     const query = {
         numResults,
