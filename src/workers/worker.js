@@ -26,12 +26,18 @@ function query(serial, numResults, expectedPredicateValues, expectedDatatypeValu
         expectedPredicateValues,
       };
 
+    const start = Date.now();
+    const times = {};
+
     iterator = engine.query(query);
     iterator.on('data', (d) => {
         // TODO: check if it's closed?
         nodes = d.knownTreeNodes;
         const rankedSubjects = [];
         for (const result of d.rankedSubjects) {
+            if (!(result.subject in times)) {
+                times[result.subject] = Date.now() - start;
+            }
             const matchingQuads = result.matchingQuads.map(q => [q.subject.value, q.predicate.value, q.object.value]);
             const quads = result.quads.map(q => [q.subject.value, q.predicate.value, q.object.value]);
             rankedSubjects.push({
@@ -39,6 +45,7 @@ function query(serial, numResults, expectedPredicateValues, expectedDatatypeValu
                 score: result.score,
                 matchingQuads, 
                 quads,
+                time: times[result.subject],
             });
         }
         postMessage([serial, rankedSubjects]);

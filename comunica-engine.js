@@ -7,11 +7,11 @@ const https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_http_Bus_
 const https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_parse_Bus_RdfParse = new (require('@comunica/core').Bus)({
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@comunica/bus-rdf-parse/Bus/RdfParse'
 });
-const https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_dereference_Bus_RdfDereference = new (require('@comunica/core').Bus)({
-  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@comunica/bus-rdf-dereference/Bus/RdfDereference'
-});
 const https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_parse_html_Bus_RdfParseHtml = new (require('@comunica/core').Bus)({
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@comunica/bus-rdf-parse-html/Bus/RdfParseHtml'
+});
+const https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_dereference_Bus_RdfDereference = new (require('@comunica/core').Bus)({
+  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@comunica/bus-rdf-dereference/Bus/RdfDereference'
 });
 const https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_rdf_score_Bus_RdfScore = new (require('@comunica/core').Bus)({
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/bus-rdf-score/Bus/RdfScore'
@@ -42,15 +42,6 @@ const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_type
   'agentOptions': '{ "keepAlive": true, "maxSockets": 5 }',
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/http.json#myHttpFetcher',
   'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_http_Bus_Http
-});
-const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_mediatorRdfParseMediatypes = new (require('@comunica/mediator-combine-union').MediatorCombineUnion)({
-  'field': 'mediaTypes',
-  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/rdf-parsers.json#mediatorRdfParseMediatypes',
-  'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_parse_Bus_RdfParse
-});
-const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_mediatorRdfParseHandle = new (require('@comunica/mediator-race').MediatorRace)({
-  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/rdf-parsers.json#mediatorRdfParseHandle',
-  'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_parse_Bus_RdfParse
 });
 const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserN3 = new (require('@comunica/actor-rdf-parse-n3').ActorRdfParseN3)({
   'mediaTypes': {
@@ -97,9 +88,14 @@ const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_type
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/rdf-parsers.json#myRdfParserXmlRdfa',
   'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_parse_Bus_RdfParse
 });
-const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_dereference_json_mediatorRdfDereference = new (require('@comunica/mediator-race').MediatorRace)({
-  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/rdf-dereference.json#mediatorRdfDereference',
-  'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_dereference_Bus_RdfDereference
+const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_mediatorRdfParseMediatypes = new (require('@comunica/mediator-combine-union').MediatorCombineUnion)({
+  'field': 'mediaTypes',
+  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/rdf-parsers.json#mediatorRdfParseMediatypes',
+  'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_parse_Bus_RdfParse
+});
+const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_mediatorRdfParseHandle = new (require('@comunica/mediator-race').MediatorRace)({
+  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/rdf-parsers.json#mediatorRdfParseHandle',
+  'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_parse_Bus_RdfParse
 });
 const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserHtml = new (require('@comunica/actor-rdf-parse-html').ActorRdfParseHtml)({
   'busRdfParseHtml': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_parse_html_Bus_RdfParseHtml,
@@ -122,6 +118,10 @@ const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_type
 const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserHtmlRdfa = new (require('@comunica/actor-rdf-parse-html-rdfa').ActorRdfParseHtmlRdfa)({
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/rdf-parsers.json#myRdfParserHtmlRdfa',
   'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_parse_html_Bus_RdfParseHtml
+});
+const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_dereference_json_mediatorRdfDereference = new (require('@comunica/mediator-race').MediatorRace)({
+  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/rdf-dereference.json#mediatorRdfDereference',
+  'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_dereference_Bus_RdfDereference
 });
 const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_myRdfScoreStringLength = new (require('@treecg/actor-rdf-score-string-length').ActorRdfScoreStringLength)({
   'ascending': [
@@ -277,7 +277,6 @@ const urn_comunica_my = ({
   'actors': [
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_http_json_myHttpProxy,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_http_json_myHttpFetcher,
-  https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_dereference_json_rdfDereferencer,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserN3,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserJsonLd,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserRdfXml,
@@ -285,6 +284,7 @@ const urn_comunica_my = ({
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserHtml,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserHtmlMicrodata,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserHtmlRdfa,
+  https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_dereference_json_rdfDereferencer,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_myRdfScoreExactPrefix,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_myRdfScoreBiGram,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_myRdfScoreStringLength,

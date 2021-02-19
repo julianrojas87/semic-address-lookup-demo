@@ -3,7 +3,6 @@ const WorkerPlugin = require('worker-plugin');
 
 const browserConfig = {
     entry: "./src/index.ts",
-    devtool: "source-map",//"cheap-module-source-map",
     module: {
         rules: [
             {
@@ -11,7 +10,7 @@ const browserConfig = {
                 use: {
                     loader: "ts-loader",
                 },
-                exclude: /node_modules/, 
+                exclude: /node_modules/,
             }
         ],
     },

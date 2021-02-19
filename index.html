@@ -156,7 +156,7 @@
 
             let currentResults = new Map();
 
-            function createRow(subject) {
+            function createRow(subject, time) {
                 row = document.createElement('div');
                 row.setAttribute("class", "row result");
 
@@ -167,8 +167,15 @@
 
                 linkRow = document.createElement('div');
                 linkRow.setAttribute("class", "row result");
+
+                timeColumn = document.createElement('div');
+                timeColumn.setAttribute("class", "column column-10 column-offset-10");
+                timeColumn.setAttribute("style", "text-align: left; font-size: 0.75em;");
+                timeColumn.textContent = `~ ${time} ms`;
+                linkRow.appendChild(timeColumn);
+
                 linkColumn = document.createElement('div');
-                linkColumn.setAttribute("class", "column column-80 column-offset-10");
+                linkColumn.setAttribute("class", "column column-60 column-offset-10");
                 linkColumn.setAttribute("style", "text-align: right;");
                 linkRow.appendChild(linkColumn);
 
@@ -178,7 +185,7 @@
                 linkColumn.appendChild(link);
 
                 resultsElement.appendChild(row);
-                resultsElement.appendChild(linkColumn);
+                resultsElement.appendChild(linkRow);
                 resultsElement.appendChild(document.createElement('hr'));
             }
 
@@ -208,12 +215,10 @@
             autocomplete.on('data', (results) => {
                 reset();
                 for (const result of results) {
-                    createRow(result.subject);
+                    createRow(result.subject, result.time);
                     showResult(dataColumn, result.matchingQuads, result.quads);
                 }
             })
-
-            const bouncyQuery = debounce(fireQuery, 50);
 
             inputField.addEventListener("input", function (e) {
                 var a, b, i, val = this.value;
@@ -224,10 +229,14 @@
                 } else if (val.trim() !== currentQuery) {
                     currentQuery = val.trim();
 
-                    if (!iterator || iterator.closed) {
-                        fireQuery();
+                    if (currentQuery.length === 0) {
+                        debounce(fireQuery, 200)();
+                    } else if (currentQuery.length < 2) {
+                        debounce(fireQuery, 150)();
+                    } else if (currentQuery.length < 4) {
+                        debounce(fireQuery, 100)();
                     } else {
-                        bouncyQuery();
+                        debounce(fireQuery, 50)();
                     }
                 }
             });

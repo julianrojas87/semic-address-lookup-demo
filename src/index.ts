@@ -62,7 +62,6 @@ export default class AutoCompleteWorker extends EventEmitter {
             };
             this.workers[url] = worker;
             this.subResults[url] = [];
-            this.serial[url] = 0;
         }
     }
 
