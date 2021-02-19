@@ -228,16 +228,7 @@
                     currentQuery = "";
                 } else if (val.trim() !== currentQuery) {
                     currentQuery = val.trim();
-
-                    if (currentQuery.length === 0) {
-                        debounce(fireQuery, 200)();
-                    } else if (currentQuery.length < 2) {
-                        debounce(fireQuery, 150)();
-                    } else if (currentQuery.length < 4) {
-                        debounce(fireQuery, 100)();
-                    } else {
-                        debounce(fireQuery, 50)();
-                    }
+                    debounce(fireQuery, 100)();
                 }
             });
         });
