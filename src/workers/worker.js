@@ -12,7 +12,7 @@ function prefetch(urls) {
 }
 
 let iterator = null;
-async function query(serial, numResults, input) {
+async function query(serial, numResults, input, predicates) {
     if (iterator) {
         iterator.removeAllListeners();
         iterator.close();
@@ -20,27 +20,26 @@ async function query(serial, numResults, input) {
 
     const normalizedInput = await engine.normalizeInput([input]);
 
-    const expectedPredicateValues = {
-        'http://schema.org/name': normalizedInput,
-        'http://schema.org/alternateName': normalizedInput,
-        'http://www.w3.org/2004/02/skos/core#prefLabel': normalizedInput,
-        'http://www.w3.org/2004/02/skos/core#altLabel': normalizedInput,
-    }
+    const expectedPredicateValues = {}
+    predicates.map(p => p.normalize 
+        ? expectedPredicateValues[p.value]= normalizedInput
+        : expectedPredicateValues[p.value]= input)
+    
 
     const expectedDatatypeValues = {};
 
-    const query = {
-        numResults,
-        urls: roots,
-        treeNodes: nodes,
-        expectedDatatypeValues,
-        expectedPredicateValues,
-      };
+    const queryObject = {
+    numResults,
+    urls: roots,
+    treeNodes: nodes,
+    expectedDatatypeValues,
+    expectedPredicateValues,
+    };
 
     const start = Date.now();
     const times = {};
 
-    iterator = engine.query(query);
+    iterator = engine.query(queryObject);
     iterator.on('data', (d) => {
         // TODO: check if it's closed?
         nodes = d.knownTreeNodes;

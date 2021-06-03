@@ -1,0 +1,42 @@
+{
+	"datasources": [{
+		"url": "https://tree.linkeddatafragments.org/data/addressregister/streetnames/Straatnaam/",
+		"description": "Streets of Flemish Address Registry"
+	}, {
+		"url": "https://tree.linkeddatafragments.org/data/addressregister/municipalities/Gemeente/",
+		"description": "Municipalities of Flemish Address Registry"
+	}, {
+		"url": "https://treecg.github.io/demo_data/vtmk.nt",
+		"description": "Visual Thesaurus for Fashion & Costumes"
+	}, {
+		"url": "https://treecg.github.io/demo_data/cht.nt",
+		"description": "Cultural Historic Thesaurus"
+	}, {
+		"url": "https://treecg.github.io/demo_data/stops.nt",
+		"description": "Public transport stops in Flanders"
+	}, {
+		"url": "https://demo.netwerkdigitaalerfgoed.nl/fragments/wo2/",
+		"description": "Digital heritage fragments about WW2"
+	}],
+	"predicates": [{
+		"value": "http://www.w3.org/2000/01/rdf-schema#label",
+		"normalize": true
+	}, {
+		"value": "http://schema.org/name'",
+		"normalize": true
+	}, {
+		"value": "http://schema.org/alternateName",
+		"normalize": true
+	}, {
+		"value": "http://www.w3.org/2004/02/skos/core#prefLabel",
+		"normalize": true
+	}, {
+		"value": "http://www.w3.org/2004/02/skos/core#altLabel",
+		"normalize": true
+	}],
+	"primaryLabels": [
+		"http://schema.org/name",
+		"http://www.w3.org/2004/02/skos/core#prefLabel",
+		"http://www.w3.org/2000/01/rdf-schema#label"
+	]
+}

@@ -26,7 +26,6 @@ const browserConfig = {
         publicPath: "./dist/",
         library: "TreeComplete",
         libraryTarget: "umd",
-        libraryExport: "default"
     },
     plugins: [
         new WorkerPlugin()

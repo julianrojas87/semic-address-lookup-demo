@@ -1,5 +1,7 @@
 import IRankedSubject from '@treecg/actor-init-typeahead/lib/interfaces/IRankedSubject';
 import { EventEmitter } from 'events';
+import { url } from 'inspector';
+import config from '../config/site_config.json'
 
 function compareResults(first: IRankedSubject, second: IRankedSubject): number {
     if (first.score.length < second.score.length) {
@@ -38,11 +40,14 @@ function compareResults(first: IRankedSubject, second: IRankedSubject): number {
     return 0;
   }
 
-export default class AutoCompleteWorker extends EventEmitter {
+class AutoCompleteWorker extends EventEmitter {
     protected workers: Record<string, Worker>;
     protected subResults: Record<string, any>;
     protected numResults: number;
     protected serial: Record<string, number>;
+    protected predicates: any;
+
+    public config;
 
     constructor(numResults: number, urls: string[]) {
         super();
@@ -50,19 +55,43 @@ export default class AutoCompleteWorker extends EventEmitter {
         this.workers = {};
         this.subResults = {};
         this.serial = {};
-        for (const url of urls) {
-            const worker = new Worker('./workers/worker.js', { type: 'module' });
-            worker.postMessage(["prefetch", url]);
-            worker.onmessage = (e) => {
-                const [receivedSerial, data] = e.data;
-                if (receivedSerial === this.serial[url]) {
-                    this.subResults[url] = data;
-                    this.mergeResults();
-                }
-            };
-            this.workers[url] = worker;
-            this.subResults[url] = [];
+        this.updateSources(urls);
+        this.predicates = config.predicates
+    }
+
+    public updateSources(urls: string[]) {
+      let currentWorkerURLs = Object.keys(this.workers);
+      // Remove workers for deselected urls
+      for (let workerURL of currentWorkerURLs){
+        if (urls.indexOf(workerURL) === -1) {
+          this.removeWorker(workerURL);
         }
+      }
+      for (let source of urls) {
+        if (currentWorkerURLs.indexOf(source) === -1) {
+          this.addWorker(source);
+        }
+      }
+    }
+
+    private addWorker(url) {
+      const worker = new Worker('./workers/worker.js', { type: 'module' });
+      worker.postMessage(["prefetch", url]);
+      worker.onmessage = (e) => {
+          const [receivedSerial, data] = e.data;
+          if (receivedSerial === this.serial[url]) {
+              this.subResults[url] = data;
+              this.mergeResults();
+          }
+      };
+      this.workers[url] = worker;
+      this.subResults[url] = [];
+    }
+
+    private removeWorker(url) {
+      delete this.workers[url];
+      delete this.subResults[url];
+
     }
 
     public mergeResults() {
@@ -78,8 +107,10 @@ export default class AutoCompleteWorker extends EventEmitter {
         for (const [url, worker] of Object.entries(this.workers)) {
             this.subResults[url] = [];
             const serial = this.serial[url];
-            worker.postMessage(["query", serial, this.numResults, input]);
+            worker.postMessage(["query", serial, this.numResults, input, this.predicates]);
         }
     }
 }
 
+
+export {config, AutoCompleteWorker}

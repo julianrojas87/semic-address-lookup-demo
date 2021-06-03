@@ -8,9 +8,17 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+    <link rel="stylesheet" href="index.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"
         integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww=="
         crossorigin="anonymous"></script>
+    
+    <!-- Jquery for datasource selection -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <!-- Chosen -->
+    <link href='dist/assets/chosen.min.css' rel='stylesheet' type='text/css'>
+    <script src='dist/assets/chosen.jquery.min.js' type='text/javascript'></script>
+
     <style>
         hr {
             margin: 0em;
@@ -34,42 +42,69 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="row" style="height: 5rem">
+    <main>
+        <div class="row" style="height: 2rem">
         </div>
+        <p style="width: 100%;">
+            <h3 style="text-align: center;">
+                Query fragmented datasets on the Web
+            </h3>
+        </p>
 
-        <div class="row">
-            <div class="column column-80 column-offset-10">
-                <input id="autocomplete" type="text" placeholder="Ask a question">
+        <fieldset class="ldf-client">
+            <ul>
+              <li>
+                  <label>Choose datasources</label>
+                  <span class="details-toggle" title="Show date option"></span>
+                  <select id="datasourcesSelect" multiple data-placeholder="Select data sources to query over...">
+                  </select>
+              </li>
+            </ul>
+        </fieldset>
+
+        <div>  
+            <div class="row">
+                <div class="column column-80 column-offset-10">
+                    <input id="autocomplete" type="text" placeholder="Give a search term">
+                </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="column column-100" id="results">
+            <div class="row">
+                <div class="column column-100" id="results">
 
+                </div>
             </div>
+
         </div>
-
-    </div>
-
+    </main>
     <script>
         window.addEventListener('load', (event) => {
             let currentQuery = "";
             const inputField = document.getElementById("autocomplete");
             const resultsElement = document.getElementById("results");
 
-            const urls = [
-                "https://treecg.github.io/demo_data/vtmk.nt",
-                "https://treecg.github.io/demo_data/cht.nt",
-                "https://treecg.github.io/demo_data/stops.nt",
-                "https://demo.netwerkdigitaalerfgoed.nl/fragments/wo2/"
-            ]
+            const datasources = TreeComplete.config.datasources;
+            
+            const autocomplete = new TreeComplete.AutoCompleteWorker(10, []);
 
-            const autocomplete = new TreeComplete(10, urls);
+            // Add data to datasource list
+            datasources.forEach(source => {
+                $("#datasourcesSelect").append(`<option value="${source.url}">${source.description}</option>`)  
+            })
+            $("#datasourcesSelect").chosen({no_results_text: `No datasource found for value: `})
+                
+
+            $("#datasourcesSelect").on('change', function(evt, params) {
+                updateSources(getSelectedValues());
+            });
+            
+            function updateSources(sources) {
+                autocomplete.updateSources(sources)
+            }
 
             function isPrimaryLabel(quad) {
                 const predicate = quad[1];
-                return predicate === "http://schema.org/name" || predicate === "http://www.w3.org/2004/02/skos/core#prefLabel";
+                return TreeComplete.config.primaryLabels.indexOf(predicate) !== -1;
             }
 
             function selectLabels(matches, allQuads) {
@@ -105,7 +140,7 @@
                         candidates = candidates.sort();
                         primaryLabels = [candidates];
                     } else {
-                        primaryLabels = [secondaryLabels];
+                        primaryLabels = [secondaryLabels[0]];
                         secondaryLabels = secondaryLabels.slice(1);
                     }
                 } else {
@@ -210,7 +245,13 @@
                     iterator.removeAllListeners();
                     iterator.close();
                 }
-                autocomplete.query(currentQuery);
+                if (getSelectedValues().length > 0) {
+                    autocomplete.query(currentQuery);
+                } else {
+                    window.alert('Please select one or more datasources to query over!')
+                    $("#autocomplete").val('')
+                }
+                
             }
 
             autocomplete.on('data', (results) => {
@@ -232,7 +273,16 @@
                     debounce(fireQuery, 100)();
                 }
             });
+
+            function getSelectedValues() {
+                return $("#datasourcesSelect").val()
+            }
+
+
+            
         });
+
+
     </script>
 </body>
 

@@ -1,0 +1,76 @@
+/*! @license MIT ©2014–2016 Ruben Verborgh, Ghent University – imec */
+
+html {
+  font-size: 11pt;
+  background: #f6f6f6;
+}
+
+* {
+  outline: none !important;
+}
+
+body {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1em 3em;
+  background: white;
+  box-shadow: 2px 2px 15px 0px rgba(50, 50, 50, 0.75);
+  min-height: 100vh;
+}
+
+li {
+  list-style: none;
+}
+
+label::after {
+  content: ":";
+}
+
+a, button, label {
+  font-weight: bold;
+}
+a, button, input:hover, label {
+  color: green;
+  cursor: pointer;
+  text-decoration: none;
+}
+.muted {
+  font-size: 0.8em;
+  color: #a8a1a2;
+}
+.help {
+  display: block;
+  font-size: 0.8em;
+  color: #a8a1a2;
+  text-decoration: underline;
+  float: right;
+  font-style: italic;
+}
+a:hover {
+  color: green;
+  text-decoration: underline;
+}
+
+
+#results {
+  font-size: small;
+}
+
+hr {
+  margin: 0px;
+}
+
+.datasourceAddButton {
+  background-color: transparent !important;
+  border: 1px solid green !important;
+  font-size: small;
+  letter-spacing: 0em;
+  line-height: 1em;
+  margin-right: 2em;
+  height: 3em;
+  margin-bottom: 0px;
+}
+
+.datasourceAddButton:hover {
+  color: lightgreen;
+}
