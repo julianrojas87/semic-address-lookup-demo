@@ -255,7 +255,7 @@
                 row.setAttribute("class", "row result");
 
                 dataColumn = document.createElement('div');
-                dataColumn.setAttribute("class", "column column-80 column-offset-10");
+                dataColumn.setAttribute("class", "column column-80");
                 dataColumn.id = subject;
                 row.appendChild(dataColumn);
 
@@ -263,13 +263,13 @@
                 linkRow.setAttribute("class", "row result");
 
                 timeColumn = document.createElement('div');
-                timeColumn.setAttribute("class", "column column-10 column-offset-10");
+                timeColumn.setAttribute("class", "column column-10");
                 timeColumn.setAttribute("style", "text-align: left; font-size: 0.75em;");
                 timeColumn.textContent = `~ ${time} ms`;
                 linkRow.appendChild(timeColumn);
 
                 linkColumn = document.createElement('div');
-                linkColumn.setAttribute("class", "column column-60 column-offset-10");
+                linkColumn.setAttribute("class", "column column-80 column-offset-10");
                 linkColumn.setAttribute("style", "text-align: right;");
                 linkRow.appendChild(linkColumn);
 
@@ -278,8 +278,12 @@
                 link.textContent = subject;
                 linkColumn.appendChild(link);
 
-                resultsElement.appendChild(row);
-                resultsElement.appendChild(linkRow);
+                resultItem = document.createElement('div')
+                resultItem.setAttribute("class", "resultItem column column-80 column-offset-10");
+                resultItem.appendChild(row);
+                resultItem.appendChild(linkRow);
+
+                resultsElement.appendChild(resultItem);
                 resultsElement.appendChild(document.createElement('hr'));
             }
 
