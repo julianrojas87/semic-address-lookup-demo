@@ -12,10 +12,10 @@ html {
 body {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 1em 3em;
   background: white;
   box-shadow: 2px 2px 15px 0px rgba(50, 50, 50, 0.75);
   min-height: 100vh;
+  font: 11pt/1.6 'Open Sans', Verdana, Arial, sans-serif;
 }
 
 .maincontent {
@@ -140,6 +140,7 @@ nav {
   border-radius: 10px 5px 5px 10px;
   margin: auto;
   margin-top: 25px;
+  margin-bottom: 30px;
   display: inline-block !important;
 }
 
@@ -261,14 +262,38 @@ nav ul li a {
   margin: 0px;
   text-align: center;
 }
+.navpage > a {
+  font-weight: normal;
+}
 
 .navpageheader {
   min-width: 100px;
   text-align: center;
 }
 
-
 .new {
   background-color: rgba(0, 0, 0, 0.06);
   font-weight: bold;
+}
+
+.new > a {
+  font-weight: bold !important;
+}
+
+
+h1::before {
+  content: "TREE | ";
+  color: rgba(0, 128, 0, 0.5);
+  font-weight: lighter;
+}
+
+h1 {
+  display: block;
+  font-size: 2em;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bolder;
+  color: black;
 }
