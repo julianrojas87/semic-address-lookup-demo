@@ -43,60 +43,118 @@
 
 <body>
     <main>
-        <div class="row" style="height: 2rem">
+        <div class="row">
+            <nav class="navigation">
+                <p><a class="navpageheader" href="https://tree.linkeddatafragments.org">TREE</a></p>
+                <ul>
+                <li class="navpage"><a href="https://tree.linkeddatafragments.org/spec">Specs</a></li>
+                <!--<li class="navpage"><a href="/pages">Use it for…</a></li>
+                <li class="navpage"><a href="/datasets">Datasets</a></li>-->
+                <li class="navpage"><a href="https://tree.linkeddatafragments.org/software">Software</a></li>
+                <li class="navpage"><a href="https://tree.linkeddatafragments.org/publications">Publications</a></li>
+                <li class="navpage"><a href="https://tree.linkeddatafragments.org/team">Team</a></li>
+                <li class="navpage"><a href="https://tree.linkeddatafragments.org/demo">Try live</a></li>
+                <li class="navpage new"><a href="https://github.com/treecg">Github</a></li>
+                </ul>
+            </nav>
         </div>
-        <p style="width: 100%;">
-            <h3 style="text-align: center;">
-                Query fragmented datasets on the Web
-            </h3>
-        </p>
-
-        <fieldset class="ldf-client">
-            <ul>
-              <li>
-                  <label>Choose datasources</label>
-                  <span class="details-toggle" title="Show date option"></span>
-                  <select id="datasourcesSelect" multiple data-placeholder="Select data sources to query over...">
-                  </select>
-              </li>
-            </ul>
-        </fieldset>
-
-        <div>  
-            <div class="row">
-                <div class="column column-80 column-offset-10">
-                    <input id="autocomplete" type="text" placeholder="Give a search term">
+        
+        <div class="maincontent">
+            <p style="width: 100%;">
+                <h4 style="text-align: center;">
+                    Autocomplete over TREE structured fragmentations
+                </h4>
+            </p>
+    
+            <fieldset class="ldf-client">
+                <div class="row">
+                    <div class="column column-80 column-offset-10">
+                        <label>Choose TREE fragmentation to query over</label>
+                        <span class="details-toggle" title="Select data source"></span>
+                        <select id="datasourcesSelect" multiple data-placeholder="Select TREE fragmentations to query over..." name="datasets[]">
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+    
+            <div>  
+                <div class="row">
+                    <div class="column column-80 column-offset-10">
+                        <input id="autocomplete" type="text" placeholder="Give a search term">
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="column column-100" id="results">
+    
+                    </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="column column-100" id="results">
-
-                </div>
-            </div>
-
         </div>
+        <footer>
+            <p>
+            © the Linked Data Fragments collaborators.
+            <strong><a href="mailto:pieter.colpaert@ugent.be?subject=TREE%20question">Contact us</a>.</strong>
+            </p>
+        </footer>
     </main>
     <script>
+
+
         window.addEventListener('load', (event) => {
             let currentQuery = "";
             const inputField = document.getElementById("autocomplete");
             const resultsElement = document.getElementById("results");
-
-            const datasources = TreeComplete.config.datasources;
+            
+            // Process URL information.
+            const url = new URL(window.location.href);
+            let startingDatasets = url.searchParams.get('datasets[]')
+            let startingSearchString = url.searchParams.get('query')
+            startingDatasets = startingDatasets ? decodeURIComponent(startingDatasets).split(',') : [];
+            startingSearchString = startingSearchString ? decodeURIComponent(startingSearchString) : "";
             
             const autocomplete = new TreeComplete.AutoCompleteWorker(10, []);
 
-            // Add data to datasource list
-            datasources.forEach(source => {
-                $("#datasourcesSelect").append(`<option value="${source.url}">${source.description}</option>`)  
-            })
-            $("#datasourcesSelect").chosen({no_results_text: `No datasource found for value: `})
-                
+            // Initialize chosen lib for datasources selection
+            $("#datasourcesSelect").chosen({no_results_text: `No datasource found for value: `})            
 
             $("#datasourcesSelect").on('change', function(evt, params) {
-                updateSources(getSelectedValues());
+                const selectedDatasets = getSelectedValues()
+                // update internal state of datasets for webworkers
+                updateSources(selectedDatasets);
+                // update url
+                const url = new URL(window.location.href);
+                const baseurl = new URL(url.origin + url.pathname)
+                // set url dataset parameters
+                baseurl.searchParams.append('datasets[]', encodeURIComponent(selectedDatasets.join(',')))
+                // Add query string
+                if (currentQuery) baseurl.searchParams.append('query', encodeURIComponent(currentQuery))
+                // push updated url to history
+                window.history.pushState("", "", baseurl.href);
             });
+
+            function initialize() {
+                const datasources = TreeComplete.config.datasources;
+                // Add data to datasource list
+                datasources.forEach(source => {
+                    $("#datasourcesSelect").append(`<option value="${source.url}">${source.description}</option>`)  
+                })
+
+                // Set starting values based on URL
+                $("#datasourcesSelect").val(startingDatasets)
+                // This updates the view (but does not trigger the on change?)
+                $("#datasourcesSelect").trigger("chosen:updated");
+                // This handles the on change /demo?datasets%5B%5D=https%253A%252F%252Ftree.linkeddatafragments.org%252Fdata%252Faddressregister%252Fstreetnames%252FStraatnaam%252F%252Chttps%253A%252F%252Ftree.linkeddatafragments.org%252Fdata%252Faddressregister%252Fmunicipalities%252FGemeente%252Ffunctionality for the initial dataset values
+                updateSources(startingDatasets)
+
+                // Set initial search value
+                if(startingSearchString) {
+                    inputField.value = startingSearchString;
+
+                    // Fire query for initial value
+                    decideQuery(inputField, startingSearchString)
+                }
+            }
             
             function updateSources(sources) {
                 autocomplete.updateSources(sources)
@@ -249,7 +307,7 @@
                     autocomplete.query(currentQuery);
                 } else {
                     window.alert('Please select one or more datasources to query over!')
-                    $("#autocomplete").val('')
+                    inputField.value = "";
                 }
                 
             }
@@ -262,22 +320,31 @@
                 }
             })
 
-            inputField.addEventListener("input", function (e) {
-                var a, b, i, val = this.value;
-
+            function decideQuery(field, e) {
+                var a, b, i, val = field.value;
+                const url = new URL(window.location.href);
                 if (!val) {
                     reset();
                     currentQuery = "";
+                    // set url query parameter
+                    url.searchParams.set('query', "")
                 } else if (val.trim() !== currentQuery) {
                     currentQuery = val.trim();
                     debounce(fireQuery, 100)();
+                    url.searchParams.set('query', encodeURIComponent(val))
                 }
+                window.history.pushState("", "", url.href);
+            }
+
+            inputField.addEventListener("input", function (e) {
+                decideQuery(inputField, e)
             });
 
             function getSelectedValues() {
                 return $("#datasourcesSelect").val()
             }
 
+            initialize();
 
             
         });

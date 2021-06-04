@@ -10,12 +10,16 @@ html {
 }
 
 body {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 1em 3em;
   background: white;
   box-shadow: 2px 2px 15px 0px rgba(50, 50, 50, 0.75);
   min-height: 100vh;
+}
+
+.maincontent {
+  min-height: 80vh;
 }
 
 li {
@@ -73,4 +77,198 @@ hr {
 
 .datasourceAddButton:hover {
   color: lightgreen;
+}
+
+.chosen-container {
+  width: 100% !important;
+}
+
+#datasourcesSelect {
+  width: 100% !important;
+}
+
+
+/* Header and footer css */
+body {
+  text-align: left;
+  overflow: auto;
+  font: 11pt/1.6 'Open Sans', Verdana, Arial, sans-serif;
+}
+
+a {
+  color: green;
+}
+a:hover {
+  color: #2cbe16;
+}
+#billboard .slogan img {
+  display: block;
+  margin: 0 auto 1.4ex;
+  width: 680px;
+}
+#billboard .slogan a {
+  text-decoration: none;
+}
+#billboard em {
+  white-space: nowrap;
+}
+
+
+footer {
+  margin-top: 3em;
+  text-align: center;
+  font-size: small;
+  color: #666666;
+}
+footer a {
+  text-decoration: none;
+}
+
+.pagelink {
+  margin: 4px;
+  border-radius: 8px !important;
+  border: 2px solid black !important;
+}
+
+nav > ul {
+  list-style: none;
+  margin-bottom: 0px;
+}
+
+nav {
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 10px 5px 5px 10px;
+  margin: auto;
+  margin-top: 25px;
+  display: inline-block !important;
+}
+
+nav * {
+  display: inline-block;
+}
+
+
+nav a {
+  text-decoration: none;
+}
+
+nav p {
+    font-weight: bold;
+    border-radius: 10px 3px 3px 10px;
+    padding: 5px 15px 5px 10px;
+    background-color: green;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+@media (max-width: 900px) {
+  nav p {
+    display: block;
+    border-radius: 10px 0 0 0;
+  }
+}
+
+@media (min-width: 900px) {
+  body.home main {
+    font-size: 1.2em;
+  }
+}
+@media (max-width: 900px) {
+  nav p {
+    display: block;
+    border-radius: 10px 0 0 0;
+  }
+  nav:after {
+    display: none;
+  }
+  svg.alternate .label:nth-child(odd) {
+    baseline-shift: -1em;
+  }
+  #billboard .slogan {
+    font-size: 1.9em;
+  }
+  #billboard .slogan img {
+    width: 100%;
+    margin-bottom: 0.5em;
+  }
+}
+@media (max-width: 620px) {
+  body {
+    padding: 5px 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    display: none;
+  }
+  nav {
+    margin: -5px -10px 10px;
+  }
+  nav ul {
+    padding: 0px;
+    font-size: .9em;
+  }
+  nav ul li {
+    padding: 5px 6px;
+  }
+  .screenshot {
+    display: none;
+  }
+}
+@media (max-height: 700px) {
+  body {
+    line-height: 1.4;
+  }
+  #billboard .slogan {
+    font-size: 1.3em;
+  }
+  #billboard .slogan img {
+    width: 70%;
+    margin-bottom: 0.5em;
+  }
+}
+
+
+nav p a {
+  color: white !important;
+}
+
+nav ul {
+    padding-left: 8px;
+    margin-top: 0px;
+}
+nav ul li {
+    padding: 5px 10px;
+    border-radius: 5px;
+    letter-spacing: .1ex;
+}
+
+nav ul li:hover {
+  background-color: green;
+  text-decoration: none;
+  color: white !important;
+}
+
+nav ul li:hover * {
+  background-color: green;
+  text-decoration: none;
+  color: white !important;
+}
+
+nav ul li a {
+  color: green;
+}
+
+.navpage {
+  margin: 0px;
+  text-align: center;
+}
+
+.navpageheader {
+  min-width: 100px;
+  text-align: center;
+}
+
+
+.new {
+  background-color: rgba(0, 0, 0, 0.06);
+  font-weight: bold;
 }
