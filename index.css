@@ -15,7 +15,6 @@ body {
   background: white;
   box-shadow: 2px 2px 15px 0px rgba(50, 50, 50, 0.75);
   min-height: 100vh;
-  overflow: hidden !important;
   text-align: left;
   font: 11pt/1.6 'Open Sans', Verdana, Arial, sans-serif;
 }
