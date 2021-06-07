@@ -12,9 +12,6 @@
 		"url": "https://treecg.github.io/demo_data/cht.nt",
 		"description": "Cultural Historic Thesaurus"
 	}, {
-		"url": "https://treecg.github.io/demo_data/stops.nt",
-		"description": "Public transport stops in Flanders"
-	}, {
 		"url": "https://demo.netwerkdigitaalerfgoed.nl/fragments/wo2/",
 		"description": "Digital heritage fragments about WW2"
 	}],
