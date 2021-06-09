@@ -10,14 +10,14 @@ const https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_parse
 const https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_dereference_Bus_RdfDereference = new (require('@comunica/core').Bus)({
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@comunica/bus-rdf-dereference/Bus/RdfDereference'
 });
-const https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_parse_html_Bus_RdfParseHtml = new (require('@comunica/core').Bus)({
-  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@comunica/bus-rdf-parse-html/Bus/RdfParseHtml'
-});
 const https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_rdf_score_Bus_RdfScore = new (require('@comunica/core').Bus)({
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/bus-rdf-score/Bus/RdfScore'
 });
 const https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_literal_normalize_Bus_LiteralNormalize = new (require('@comunica/core').Bus)({
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/bus-literal-normalize/Bus/LiteralNormalize'
+});
+const https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_parse_html_Bus_RdfParseHtml = new (require('@comunica/core').Bus)({
+  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@comunica/bus-rdf-parse-html/Bus/RdfParseHtml'
 });
 const https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_metadata_Bus_RdfMetadata = new (require('@comunica/core').Bus)({
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@comunica/bus-rdf-metadata/Bus/RdfMetadata'
@@ -101,6 +101,27 @@ const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_type
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/rdf-dereference.json#mediatorRdfDereference',
   'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_dereference_Bus_RdfDereference
 });
+const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_myRdfScoreStringLength = new (require('@treecg/actor-rdf-score-string-length').ActorRdfScoreStringLength)({
+  'ascending': [
+  true
+],
+  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/rdf-score.json#myRdfScoreStringLength',
+  'bus': https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_rdf_score_Bus_RdfScore
+});
+const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_mediatorRdfScore = new (require('@treecg/mediator-combine-sequence').MediatorCombineSequence)({
+  'testField': 'suitable',
+  'outputField': 'score',
+  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/rdf-score.json#mediatorRdfScore',
+  'bus': https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_rdf_score_Bus_RdfScore
+});
+const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_literal_normalize_json_myNFKDNormalize = new (require('@treecg/actor-literal-normalize-nfkd').ActorLiteralNormalizeNFKD)({
+  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/literal-normalize.json#myNFKDNormalize',
+  'bus': https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_literal_normalize_Bus_LiteralNormalize
+});
+const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_literal_normalize_json_mediatorLiteralNormalize = new (require('@comunica/mediator-race').MediatorRace)({
+  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/literal-normalize.json#mediatorLiteralNormalize',
+  'bus': https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_literal_normalize_Bus_LiteralNormalize
+});
 const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserHtml = new (require('@comunica/actor-rdf-parse-html').ActorRdfParseHtml)({
   'busRdfParseHtml': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_parse_html_Bus_RdfParseHtml,
   'mediaTypes': {
@@ -122,27 +143,6 @@ const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_type
 const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserHtmlRdfa = new (require('@comunica/actor-rdf-parse-html-rdfa').ActorRdfParseHtmlRdfa)({
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/rdf-parsers.json#myRdfParserHtmlRdfa',
   'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_parse_html_Bus_RdfParseHtml
-});
-const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_myRdfScoreStringLength = new (require('@treecg/actor-rdf-score-string-length').ActorRdfScoreStringLength)({
-  'ascending': [
-  true
-],
-  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/rdf-score.json#myRdfScoreStringLength',
-  'bus': https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_rdf_score_Bus_RdfScore
-});
-const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_mediatorRdfScore = new (require('@treecg/mediator-combine-sequence').MediatorCombineSequence)({
-  'testField': 'suitable',
-  'outputField': 'score',
-  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/rdf-score.json#mediatorRdfScore',
-  'bus': https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_rdf_score_Bus_RdfScore
-});
-const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_literal_normalize_json_myNFKDNormalize = new (require('@treecg/actor-literal-normalize-nfkd').ActorLiteralNormalizeNFKD)({
-  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/literal-normalize.json#myNFKDNormalize',
-  'bus': https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_literal_normalize_Bus_LiteralNormalize
-});
-const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_literal_normalize_json_mediatorLiteralNormalize = new (require('@comunica/mediator-race').MediatorRace)({
-  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/literal-normalize.json#mediatorLiteralNormalize',
-  'bus': https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_literal_normalize_Bus_LiteralNormalize
 });
 const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_myRdfMetadataAll = new (require('@comunica/actor-rdf-metadata-all').ActorRdfMetadataAll)({
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/resolve-hypermedia.json#myRdfMetadataAll',
@@ -278,6 +278,10 @@ const urn_comunica_my = ({
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_http_json_myHttpProxy,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_http_json_myHttpFetcher,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_dereference_json_rdfDereferencer,
+  https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_myRdfScoreExactPrefix,
+  https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_myRdfScoreBiGram,
+  https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_myRdfScoreStringLength,
+  https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_literal_normalize_json_myNFKDNormalize,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserN3,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserJsonLd,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserRdfXml,
@@ -285,10 +289,6 @@ const urn_comunica_my = ({
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserHtml,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserHtmlMicrodata,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserHtmlRdfa,
-  https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_myRdfScoreExactPrefix,
-  https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_myRdfScoreBiGram,
-  https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_myRdfScoreStringLength,
-  https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_literal_normalize_json_myNFKDNormalize,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_myRdfMetadataAll,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_myRdfMetadataExtractHydraControls,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_myRdfMetadataExtractHydraCount,
