@@ -1,9 +1,9 @@
 {
 	"datasources": [{
-		"url": "https://tree.linkeddatafragments.org/data/addressregister/streetnames/Straatnaam/",
+		"url": "https://tree.linkeddatafragments.org/data/addressregister/streetnames/",
 		"description": "Streets of Flemish Address Registry"
 	}, {
-		"url": "https://tree.linkeddatafragments.org/data/addressregister/municipalities/Gemeente/",
+		"url": "https://tree.linkeddatafragments.org/data/addressregister/municipalities/",
 		"description": "Municipalities of Flemish Address Registry"
 	}, {
 		"url": "https://treecg.github.io/demo_data/vtmk.ttl",
