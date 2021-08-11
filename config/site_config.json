@@ -6,13 +6,13 @@
 		"url": "https://tree.linkeddatafragments.org/data/addressregister/municipalities/Gemeente/",
 		"description": "Municipalities of Flemish Address Registry"
 	}, {
-		"url": "https://treecg.github.io/demo_data/vtmk.nt",
+		"url": "https://treecg.github.io/demo_data/vtmk.ttl",
 		"description": "Visual Thesaurus for Fashion & Costumes"
 	}, {
-		"url": "https://treecg.github.io/demo_data/cht.nt",
+		"url": "https://treecg.github.io/demo_data/cht.ttl",
 		"description": "Cultural Historic Thesaurus"
 	}, {
-		"url": "https://treecg.github.io/demo_data/stops.nt",
+		"url": "https://treecg.github.io/demo_data/stops.ttl",
 		"description": "Public transport stops in Flanders"
 	}, {
 		"url": "https://demo.netwerkdigitaalerfgoed.nl/fragments/wo2/",
