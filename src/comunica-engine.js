@@ -13,11 +13,11 @@ const https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_deref
 const https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_parse_html_Bus_RdfParseHtml = new (require('@comunica/core').Bus)({
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@comunica/bus-rdf-parse-html/Bus/RdfParseHtml'
 });
-const https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_literal_normalize_Bus_LiteralNormalize = new (require('@comunica/core').Bus)({
-  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/bus-literal-normalize/Bus/LiteralNormalize'
-});
 const https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_rdf_score_Bus_RdfScore = new (require('@comunica/core').Bus)({
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/bus-rdf-score/Bus/RdfScore'
+});
+const https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_literal_normalize_Bus_LiteralNormalize = new (require('@comunica/core').Bus)({
+  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/bus-literal-normalize/Bus/LiteralNormalize'
 });
 const https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_metadata_Bus_RdfMetadata = new (require('@comunica/core').Bus)({
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@comunica/bus-rdf-metadata/Bus/RdfMetadata'
@@ -123,14 +123,6 @@ const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_type
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/rdf-parsers.json#myRdfParserHtmlRdfa',
   'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_parse_html_Bus_RdfParseHtml
 });
-const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_literal_normalize_json_myNFKDNormalize = new (require('@treecg/actor-literal-normalize-nfkd').ActorLiteralNormalizeNFKD)({
-  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/literal-normalize.json#myNFKDNormalize',
-  'bus': https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_literal_normalize_Bus_LiteralNormalize
-});
-const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_literal_normalize_json_mediatorLiteralNormalize = new (require('@comunica/mediator-race').MediatorRace)({
-  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/literal-normalize.json#mediatorLiteralNormalize',
-  'bus': https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_literal_normalize_Bus_LiteralNormalize
-});
 const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_myRdfScoreStringLength = new (require('@treecg/actor-rdf-score-string-length').ActorRdfScoreStringLength)({
   'ascending': [
   true
@@ -144,18 +136,21 @@ const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_type
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/rdf-score.json#mediatorRdfScore',
   'bus': https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_rdf_score_Bus_RdfScore
 });
-const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_mediatorMetadata = new (require('@comunica/mediator-race').MediatorRace)({
-  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/resolve-hypermedia.json#mediatorMetadata',
-  'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_metadata_Bus_RdfMetadata
+const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_literal_normalize_json_myNFKDNormalize = new (require('@treecg/actor-literal-normalize-nfkd').ActorLiteralNormalizeNFKD)({
+  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/literal-normalize.json#myNFKDNormalize',
+  'bus': https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_literal_normalize_Bus_LiteralNormalize
+});
+const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_literal_normalize_json_mediatorLiteralNormalize = new (require('@comunica/mediator-race').MediatorRace)({
+  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/literal-normalize.json#mediatorLiteralNormalize',
+  'bus': https___linkedsoftwaredependencies_org_bundles_npm__treecg_bus_literal_normalize_Bus_LiteralNormalize
 });
 const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_myRdfMetadataAll = new (require('@comunica/actor-rdf-metadata-all').ActorRdfMetadataAll)({
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/resolve-hypermedia.json#myRdfMetadataAll',
   'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_metadata_Bus_RdfMetadata
 });
-const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_mediatorMetadataExtract = new (require('@comunica/mediator-combine-union').MediatorCombineUnion)({
-  'field': 'metadata',
-  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/resolve-hypermedia.json#mediatorMetadataExtract',
-  'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_metadata_extract_Bus_RdfMetadataExtract
+const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_mediatorMetadata = new (require('@comunica/mediator-race').MediatorRace)({
+  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/resolve-hypermedia.json#mediatorMetadata',
+  'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_metadata_Bus_RdfMetadata
 });
 const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_myRdfMetadataExtractHydraControls = new (require('@comunica/actor-rdf-metadata-extract-hydra-controls').ActorRdfMetadataExtractHydraControls)({
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/resolve-hypermedia.json#myRdfMetadataExtractHydraControls',
@@ -173,12 +168,17 @@ const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_type
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/resolve-hypermedia.json#myRdfMetadataExtractTree',
   'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_metadata_extract_Bus_RdfMetadataExtract
 });
-const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_mediatorHypermediaLinks = new (require('@comunica/mediator-race').MediatorRace)({
-  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/resolve-hypermedia.json#mediatorHypermediaLinks',
-  'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_resolve_hypermedia_links_Bus_RdfResolveHypermediaLinks
+const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_mediatorMetadataExtract = new (require('@comunica/mediator-combine-union').MediatorCombineUnion)({
+  'field': 'metadata',
+  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/resolve-hypermedia.json#mediatorMetadataExtract',
+  'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_metadata_extract_Bus_RdfMetadataExtract
 });
 const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_myHypermediaLinksTreeAll = new (require('@treecg/actor-rdf-resolve-hypermedia-links-tree-all').ActorRdfResolveHypermediaLinksTreeAll)({
   'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/resolve-hypermedia.json#myHypermediaLinksTreeAll',
+  'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_resolve_hypermedia_links_Bus_RdfResolveHypermediaLinks
+});
+const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_mediatorHypermediaLinks = new (require('@comunica/mediator-race').MediatorRace)({
+  'name': 'https://linkedsoftwaredependencies.org/bundles/npm/@treecg/actor-init-typeahead/^1.0.0/config/sets/resolve-hypermedia.json#mediatorHypermediaLinks',
   'bus': https___linkedsoftwaredependencies_org_bundles_npm__comunica_bus_rdf_resolve_hypermedia_links_Bus_RdfResolveHypermediaLinks
 });
 const https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_tree_score_json_mediatorTreeScore = new (require('@treecg/mediator-combine-sequence').MediatorCombineSequence)({
@@ -278,15 +278,15 @@ const urn_comunica_my = ({
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserHtml,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserHtmlMicrodata,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_parsers_json_myRdfParserHtmlRdfa,
-  https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_literal_normalize_json_myNFKDNormalize,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_myRdfScoreSubstring,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_rdf_score_json_myRdfScoreStringLength,
-  urn_comunica_typeaheadinit,
+  https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_literal_normalize_json_myNFKDNormalize,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_myRdfMetadataAll,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_myRdfMetadataExtractHydraControls,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_myRdfMetadataExtractHydraCount,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_myRdfMetadataExtractTree,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_resolve_hypermedia_json_myHypermediaLinksTreeAll,
+  urn_comunica_typeaheadinit,
   https___linkedsoftwaredependencies_org_bundles_npm__treecg_actor_init_typeahead__1_0_0_config_sets_tree_score_json_myTreeScore
 ]
 });
