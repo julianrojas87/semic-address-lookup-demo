@@ -93,7 +93,7 @@
         </div>
         <footer>
             <p>
-            © the Linked Data Fragments collaborators.
+            © the Linked Data Fragments collaborators.je kan het wel atm in de github steken als ene data source :)
             <strong><a href="mailto:pieter.colpaert@ugent.be?subject=TREE%20question">Contact us</a>.</strong>
             </p>
         </footer>
@@ -103,8 +103,10 @@
 
         window.addEventListener('load', (event) => {
             let currentQuery = "";
+            let currentDatasetFieldValue = "";
             const inputField = document.getElementById("autocomplete");
             const resultsElement = document.getElementById("results");
+            var datasources = [];
             
             // Process URL information.
             const url = new URL(window.location.href);
@@ -116,7 +118,22 @@
             const autocomplete = new TreeComplete.AutoCompleteWorker(10, []);
 
             // Initialize chosen lib for datasources selection
-            $("#datasourcesSelect").chosen({no_results_text: `No datasource found for value: `})            
+            $("#datasourcesSelect").chosen({no_results_text: `Press <b>Spacebar</b> to add datasource: ${currentDatasetFieldValue}`})          
+            
+            $(".chosen-search-input").on('keyup',function(e) {
+                currentDatasetFieldValue = e.target.value;
+                e.stopPropagation();
+            });
+             
+            $(".chosen-search-input").on('keydown',function(e) {
+                e.stopPropagation();
+                if(e.which == 32) {
+                    // Pressed Enter
+                    e.stopPropagation();
+                    addDataset(currentDatasetFieldValue);
+                }
+                e.stopPropagation();
+            });
 
             $("#datasourcesSelect").on('change', function(evt, params) {
                 const selectedDatasets = getSelectedValues()
@@ -133,13 +150,26 @@
                 window.history.pushState("", "", baseurl.href);
             });
 
+            function createCustomDataSource(URI) {
+                return {url: URI, description: `Custom datasource: ${URI}`}
+            }
+
             function initialize() {
-                const datasources = TreeComplete.config.datasources;
+                datasources = TreeComplete.config.datasources || []
+
+                // add custom datasources from URI
+                let datasourceURIs = datasources.map(s => s.url)
+                for (let dataSourceURI of startingDatasets) {
+                    if (datasourceURIs.indexOf(dataSourceURI) === -1) {
+                        // Add custom datasource
+                        datasources.push(createCustomDataSource(dataSourceURI))
+                    }
+                }
+            
                 // Add data to datasource list
                 datasources.forEach(source => {
                     $("#datasourcesSelect").append(`<option value="${source.url}">${source.description}</option>`)  
                 })
-
                 // Set starting values based on URL
                 $("#datasourcesSelect").val(startingDatasets)
                 // This updates the view (but does not trigger the on change?)
@@ -154,6 +184,24 @@
                     // Fire query for initial value
                     decideQuery(inputField, startingSearchString)
                 }
+            }
+
+            function addDataset(datasetURI) {
+                if(!datasetURI) return;
+                let datasetObject = createCustomDataSource(datasetURI)
+                datasources.push(datasetObject);
+                
+                // Add data to datasource list
+                $("#datasourcesSelect").append(`<option value="${datasetObject.url}">${datasetObject.description}</option>`)  
+                let selectedDatasets = getSelectedValues();
+                var updatedDatasets = selectedDatasets.concat(datasetObject.url)
+
+                // Set starting values based on URL
+                $("#datasourcesSelect").val(updatedDatasets)
+                // This updates the view (but does not trigger the on change?)
+                $("#datasourcesSelect").trigger("chosen:updated");
+
+                $("#datasourcesSelect").trigger("change");
             }
             
             function updateSources(sources) {
