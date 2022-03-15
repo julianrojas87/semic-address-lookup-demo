@@ -26,7 +26,16 @@ async function query(serial, numResults, input, predicates) {
         : expectedPredicateValues[p.value]= input)
     
 
+    // I had to add these manually to make it work. 
+    // When following tree relations, the scoring actors rely on these datatypes for their scoring
+    // as they ignore the expectedPredicateValues then. 
+    // This is a problem in the design and should be addressed :/
+    const dataTypes = [
+        "http://www.w3.org/2001/XMLSchema#string",
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+    ]
     const expectedDatatypeValues = {};
+    dataTypes.map(dataType => expectedDatatypeValues[dataType]= normalizedInput)
 
     const queryObject = {
     numResults,
