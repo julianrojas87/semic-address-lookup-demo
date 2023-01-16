@@ -3,16 +3,18 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Autocomplete demo</title>
+    <title>Interoperable Europe - Address Base Registries LDES demo</title>
     <script id="test" src="dist/bundle.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
     <link rel="stylesheet" href="index.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"
         integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww=="
         crossorigin="anonymous"></script>
-    
+
     <!-- Jquery for datasource selection -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <!-- Chosen -->
@@ -44,57 +46,55 @@
 <body>
     <main>
         <div class="row">
+            <a class="logo" href="https://joinup.ec.europa.eu/interoperable-europe" target="_blank">
+                <img src="dist/assets/ie-logo.jpg">
+            </a>
             <nav class="navigation">
-                <p><a class="navpageheader" href="https://tree.linkeddatafragments.org">TREE</a></p>
+                <p><a class="navpageheader" href="https://ldes.tech">LDES</a></p>
                 <ul>
-                <li class="navpage"><a href="https://tree.linkeddatafragments.org/spec">Specs</a></li>
-                <!--<li class="navpage"><a href="/pages">Use it for…</a></li>
-                <li class="navpage"><a href="/datasets">Datasets</a></li>-->
-                <li class="navpage"><a href="https://tree.linkeddatafragments.org/software">Software</a></li>
-                <li class="navpage"><a href="https://tree.linkeddatafragments.org/publications">Publications</a></li>
-                <li class="navpage"><a href="https://tree.linkeddatafragments.org/team">Team</a></li>
-                <li class="navpage"><a href="https://tree.linkeddatafragments.org/demo">Try live</a></li>
-                <li class="navpage new"><a href="https://github.com/treecg">Github</a></li>
+                    <li class="navpage new"><a
+                            href="https://github.com/julianrojas87/treemunica_typeahead_demo">Github</a></li>
                 </ul>
             </nav>
         </div>
-        
+
         <div class="maincontent">
             <p style="width: 100%;">
-                <h1 style="text-align: center;">
-                    Autocomplete over TREE structured fragmentations
-                </h1>
+            <h1 style="text-align: center;">
+                Federated address lookup service over official Base Registries
+            </h1>
             </p>
-    
+
             <fieldset class="ldf-client">
                 <div class="row">
                     <div class="column column-80 column-offset-10">
-                        <label>Choose TREE fragmentation to query over</label>
+                        <label>Choose (or add) a Base Registry to query over</label>
                         <span class="details-toggle" title="Select data source"></span>
-                        <select id="datasourcesSelect" multiple data-placeholder="Select TREE fragmentations to query over..." name="datasets[]">
+                        <select id="datasourcesSelect" multiple
+                            data-placeholder="Select TREE fragmentations to query over..." name="datasets[]">
                         </select>
                     </div>
                 </div>
             </fieldset>
-    
-            <div>  
+
+            <div>
                 <div class="row">
                     <div class="column column-80 column-offset-10">
                         <input id="autocomplete" type="text" placeholder="Give a search term" autocomplete="off">
                     </div>
                 </div>
-    
+
                 <div class="row">
                     <div class="column column-100" id="results">
-    
+
                     </div>
                 </div>
             </div>
         </div>
         <footer>
             <p>
-            © the Linked Data Fragments collaborators.
-            <strong><a href="mailto:pieter.colpaert@ugent.be?subject=TREE%20question">Contact us</a>.</strong>
+                © Interoperable Europe - SEMIC.
+                <strong><a href="mailto:julianandres.rojasmelendez@ugent.be">Contact us</a>.</strong>
             </p>
         </footer>
     </main>
@@ -107,27 +107,27 @@
             const inputField = document.getElementById("autocomplete");
             const resultsElement = document.getElementById("results");
             var datasources = [];
-            
+
             // Process URL information.
             const url = new URL(window.location.href);
             let startingDatasets = url.searchParams.get('datasets[]')
             let startingSearchString = url.searchParams.get('query')
             startingDatasets = startingDatasets ? decodeURIComponent(startingDatasets).split(',') : [];
             startingSearchString = startingSearchString ? decodeURIComponent(startingSearchString) : "";
-            
+
             const autocomplete = new TreeComplete.AutoCompleteWorker(10, []);
 
             // Initialize chosen lib for datasources selection
-            $("#datasourcesSelect").chosen({no_results_text: `Press <b>Spacebar</b> to add datasource: ${currentDatasetFieldValue}`})          
-            
-            $(".chosen-search-input").on('keyup',function(e) {
+            $("#datasourcesSelect").chosen({ no_results_text: `Press <b>Spacebar</b> to add datasource: ${currentDatasetFieldValue}` })
+
+            $(".chosen-search-input").on('keyup', function (e) {
                 currentDatasetFieldValue = e.target.value;
                 e.stopPropagation();
             });
-             
-            $(".chosen-search-input").on('keydown',function(e) {
+
+            $(".chosen-search-input").on('keydown', function (e) {
                 e.stopPropagation();
-                if(e.which == 32) {
+                if (e.which == 32) {
                     // Pressed Enter
                     e.stopPropagation();
                     addDataset(currentDatasetFieldValue);
@@ -135,7 +135,7 @@
                 e.stopPropagation();
             });
 
-            $("#datasourcesSelect").on('change', function(evt, params) {
+            $("#datasourcesSelect").on('change', function (evt, params) {
                 const selectedDatasets = getSelectedValues()
                 // update internal state of datasets for webworkers
                 updateSources(selectedDatasets);
@@ -151,7 +151,7 @@
             });
 
             function createCustomDataSource(URI) {
-                return {url: URI, description: `Custom datasource: ${URI}`}
+                return { url: URI, description: `Custom datasource: ${URI}` }
             }
 
             function initialize() {
@@ -165,10 +165,10 @@
                         datasources.push(createCustomDataSource(dataSourceURI))
                     }
                 }
-            
+
                 // Add data to datasource list
                 datasources.forEach(source => {
-                    $("#datasourcesSelect").append(`<option value="${source.url}">${source.description}</option>`)  
+                    $("#datasourcesSelect").append(`<option value="${source.url}">${source.description}</option>`)
                 })
                 // Set starting values based on URL
                 $("#datasourcesSelect").val(startingDatasets)
@@ -178,7 +178,7 @@
                 updateSources(startingDatasets)
 
                 // Set initial search value
-                if(startingSearchString) {
+                if (startingSearchString) {
                     inputField.value = startingSearchString;
 
                     // Fire query for initial value
@@ -187,12 +187,12 @@
             }
 
             function addDataset(datasetURI) {
-                if(!datasetURI) return;
+                if (!datasetURI) return;
                 let datasetObject = createCustomDataSource(datasetURI)
                 datasources.push(datasetObject);
-                
+
                 // Add data to datasource list
-                $("#datasourcesSelect").append(`<option value="${datasetObject.url}">${datasetObject.description}</option>`)  
+                $("#datasourcesSelect").append(`<option value="${datasetObject.url}">${datasetObject.description}</option>`)
                 let selectedDatasets = getSelectedValues();
                 var updatedDatasets = selectedDatasets.concat(datasetObject.url)
 
@@ -203,8 +203,13 @@
 
                 $("#datasourcesSelect").trigger("change");
             }
-            
+
             function updateSources(sources) {
+                // Hack to add all French sources
+                if (sources.includes("https://openplanner.ilabt.imec.be/tree/france-1/")) {
+                    sources.push("https://openplanner.ilabt.imec.be/tree/france-2/");
+                    sources.push("https://openplanner.ilabt.imec.be/tree/france-3/")
+                }
                 autocomplete.updateSources(sources)
             }
 
@@ -298,7 +303,7 @@
 
             let currentResults = new Map();
 
-            function createRow(subject, time) {
+            function createRow(subject, time, quads) {
                 row = document.createElement('div');
                 row.setAttribute("class", "row result");
 
@@ -321,10 +326,16 @@
                 linkColumn.setAttribute("style", "text-align: right;");
                 linkRow.appendChild(linkColumn);
 
+                const locationIcon = document.createElement("img");
+                locationIcon.setAttribute("src", "dist/assets/location-icon.png");
+                locationIcon.setAttribute("style", "width: 30px; float: right; margin-left: 10px; cursor: pointer;");
+                locationIcon.addEventListener("click", () => TreeComplete.showLocation(quads));
+
                 link = document.createElement('a');
                 link.setAttribute("href", subject);
                 link.textContent = subject;
                 linkColumn.appendChild(link);
+                linkColumn.appendChild(locationIcon);
 
                 resultItem = document.createElement('div')
                 resultItem.setAttribute("class", "resultItem column column-80 column-offset-10");
@@ -361,13 +372,13 @@
                     window.alert('Please select one or more datasources to query over!')
                     inputField.value = "";
                 }
-                
+
             }
 
             autocomplete.on('data', (results) => {
                 reset();
                 for (const result of results) {
-                    createRow(result.subject, result.time);
+                    createRow(result.subject, result.time, result.quads);
                     showResult(dataColumn, result.matchingQuads, result.quads);
                 }
             })
@@ -398,7 +409,7 @@
 
             initialize();
 
-            
+
         });
 
 

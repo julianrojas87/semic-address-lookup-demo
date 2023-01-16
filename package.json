@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "prepare": "comunica-compile-config config/config-default.json urn:comunica:typeaheadinit > src/comunica-engine.js",
-    "build": "npm run prepare && npm run webpack",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && npm run prepare && npm run webpack",
     "webpack": "webpack --config webpack.config.js --mode production"
   },
   "dependencies": {
@@ -21,7 +21,10 @@
     "@comunica/core": "^1.22.0",
     "@comunica/runner": "^1.22.0",
     "@treecg/actor-init-typeahead": "^1.21.5",
-    "rdf-string": "^1.5.0"
+    "leaflet": "^1.9.3",
+    "rdf-string": "^1.5.0",
+    "sweetalert2": "^11.7.0",
+    "wellknown": "^0.5.0"
   },
   "devDependencies": {
     "@types/node": "^12.19.4",

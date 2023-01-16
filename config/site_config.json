@@ -1,39 +1,40 @@
 {
-	"datasources": [{
-		"url": "https://tree.linkeddatafragments.org/data/addressregister/streetnames/",
-		"description": "Streets of Flemish Address Registry"
-	}, {
-		"url": "https://tree.linkeddatafragments.org/data/addressregister/municipalities/",
-		"description": "Municipalities of Flemish Address Registry"
-	}, {
-		"url": "https://treecg.github.io/demo_data/vtmk.ttl",
-		"description": "Visual Thesaurus for Fashion & Costumes"
-	}, {
-		"url": "https://treecg.github.io/demo_data/cht.ttl",
-		"description": "Cultural Historic Thesaurus"
-	}, {
-		"url": "https://treecg.github.io/demo_data/stops.ttl",
-		"description": "Public transport stops in Flanders"
-	}, {
-		"url": "https://demo.netwerkdigitaalerfgoed.nl/fragments/wo2/",
-		"description": "Digital heritage fragments about WW2"
-	}],
-	"predicates": [{
-		"value": "http://www.w3.org/2000/01/rdf-schema#label",
-		"normalize": true
-	}, {
-		"value": "http://schema.org/name",
-		"normalize": true
-	}, {
-		"value": "http://schema.org/alternateName",
-		"normalize": true
-	}, {
-		"value": "http://www.w3.org/2004/02/skos/core#prefLabel",
-		"normalize": true
-	}, {
-		"value": "http://www.w3.org/2004/02/skos/core#altLabel",
-		"normalize": true
-	}],
+	"datasources": [
+		{
+			"url": "https://openplanner.ilabt.imec.be/tree/belgium/",
+			"description": "Address Base Registry - Belgium 🇧🇪"
+		},
+		{
+			"url": "https://openplanner.ilabt.imec.be/tree/netherlands/",
+			"description": "Address Base Registry - The Netherlands 🇳🇱"
+		},
+		{
+			"url": "https://openplanner.ilabt.imec.be/tree/france-1/",
+			"description": "Address Base Registry - France 🇫🇷"
+		}
+	],
+	"predicates": [
+		{
+			"value": "http://www.w3.org/2000/01/rdf-schema#label",
+			"normalize": true
+		},
+		{
+			"value": "http://schema.org/name",
+			"normalize": true
+		},
+		{
+			"value": "http://schema.org/alternateName",
+			"normalize": true
+		},
+		{
+			"value": "http://www.w3.org/2004/02/skos/core#prefLabel",
+			"normalize": true
+		},
+		{
+			"value": "http://www.w3.org/2004/02/skos/core#altLabel",
+			"normalize": true
+		}
+	],
 	"primaryLabels": [
 		"http://schema.org/name",
 		"http://www.w3.org/2004/02/skos/core#prefLabel",

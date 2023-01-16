@@ -31,7 +31,7 @@ a, button, label {
   font-weight: bold;
 }
 a, button, input:hover, label {
-  color: green;
+  color: #0060df;
   cursor: pointer;
   text-decoration: none;
 }
@@ -48,7 +48,7 @@ a, button, input:hover, label {
   font-style: italic;
 }
 a:hover {
-  color: green;
+  color: #0060df;
   text-decoration: underline;
 }
 
@@ -63,7 +63,7 @@ hr {
 
 .datasourceAddButton {
   background-color: transparent !important;
-  border: 1px solid green !important;
+  border: 1px solid #0060df !important;
   font-size: small;
   letter-spacing: 0em;
   line-height: 1em;
@@ -73,7 +73,7 @@ hr {
 }
 
 .datasourceAddButton:hover {
-  color: lightgreen;
+  color: light#0060df;
 }
 
 .chosen-container {
@@ -95,7 +95,7 @@ hr {
 
 /* Header and footer css */
 a {
-  color: green;
+  color: #0060df;
 }
 a:hover {
   color: #2cbe16;
@@ -156,7 +156,7 @@ nav p {
     font-weight: bold;
     border-radius: 10px 3px 3px 10px;
     padding: 5px 15px 5px 10px;
-    background-color: green;
+    background-color: #0060df;
     margin-bottom: 0px;
     margin-top: 0px;
 }
@@ -242,19 +242,19 @@ nav ul li {
 }
 
 nav ul li:hover {
-  background-color: green;
+  background-color: #0060df;
   text-decoration: none;
   color: white !important;
 }
 
 nav ul li:hover * {
-  background-color: green;
+  background-color: #0060df;
   text-decoration: none;
   color: white !important;
 }
 
 nav ul li a {
-  color: green;
+  color: #0060df;
 }
 
 .navpage {
@@ -280,11 +280,11 @@ nav ul li a {
 }
 
 
-h1::before {
+/*h1::before {
   content: "TREE | ";
   color: rgba(0, 128, 0, 0.5);
   font-weight: lighter;
-}
+}*/
 
 h1 {
   display: block;
@@ -295,4 +295,10 @@ h1 {
   margin-inline-end: 0px;
   font-weight: bolder;
   color: black;
+}
+
+.logo {
+  max-width: 36%;
+  height: fit-content;
+  margin-left: auto;
 }
